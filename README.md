@@ -12,7 +12,7 @@ Ein modernes Tabu-Spiel mit Tübingen-spezifischen Begriffen, entwickelt mit Ast
 
 ## 🏛️ Tübingen-Begriffe
 
-Das Spiel enthält typische Tübinger Begriffe wie:
+Das Spiel enthält über 30 typische Tübinger Begriffe wie:
 
 - WHO (Weltgesundheitsorganisation)
 - Boris Palmer
@@ -20,6 +20,11 @@ Das Spiel enthält typische Tübinger Begriffe wie:
 - Neckar & Stocherkahn
 - Eberhard Karls Universität
 - Schloss Hohentübingen
+- Hölderlinturm & Studentenkarzer
+- Bebenhausen & Schönbuch
+- Waldhörnle & Österberg
+- Französisches Viertel
+- Lustnau, Derendingen & Pfrondorf
 - Und viele mehr...
 
 ## 🚀 Features
@@ -27,7 +32,7 @@ Das Spiel enthält typische Tübinger Begriffe wie:
 - ⏱️ **Timer-Funktion** mit 90 Sekunden pro Runde
 - 📊 **Punktesystem** für zwei Teams
 - 📱 **Responsive Design** für alle Geräte
-- 🎨 **Modernes UI** mit Animationen
+- 🎨 **Schlichtes Design** mit klaren Farben und einfacher Navigation
 - 🔄 **Unbegrenzte Runden** mit zufälligen Karten
 
 ## 💻 Entwicklung

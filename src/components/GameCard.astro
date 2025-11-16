@@ -53,6 +53,86 @@ const tuebingenCards = [
     word: "Ammerbuch",
     forbidden: ["Nachbar", "Gemeinde", "Ammer", "Entringen", "Altingen"],
   },
+  {
+    word: "Bebenhausen",
+    forbidden: ["Kloster", "Wald", "Schönbuch", "Hirsch", "Jagdschloss"],
+  },
+  {
+    word: "Wilhelmsplatz",
+    forbidden: ["Platz", "Statue", "Friedrich", "König", "Zentrum"],
+  },
+  {
+    word: "Hölderlinturm",
+    forbidden: ["Turm", "Dichter", "Neckar", "Poet", "Wahnsinn"],
+  },
+  {
+    word: "Studentenkarzer",
+    forbidden: ["Gefängnis", "Student", "Arrest", "Zelle", "Strafe"],
+  },
+  {
+    word: "Marktplatz",
+    forbidden: ["Platz", "Rathaus", "Markt", "Zentrum", "Brunnen"],
+  },
+  {
+    word: "Neckarinsel",
+    forbidden: ["Insel", "Neckar", "Wasser", "Park", "Spaziergang"],
+  },
+  {
+    word: "Österberg",
+    forbidden: ["Berg", "Hügel", "Aussicht", "Spaziergang", "Wandern"],
+  },
+  {
+    word: "Französisches Viertel",
+    forbidden: ["Viertel", "Frankreich", "Soldaten", "Kaserne", "Wohnen"],
+  },
+  {
+    word: "Lustnau",
+    forbidden: ["Stadtteil", "Ammer", "Bahnhof", "Dorf", "Eingemeindung"],
+  },
+  {
+    word: "Derendingen",
+    forbidden: ["Stadtteil", "Dorf", "Eingemeindung", "Vorort", "Gemeinde"],
+  },
+  {
+    word: "Pfrondorf",
+    forbidden: ["Stadtteil", "Dorf", "Berg", "Eingemeindung", "Höhe"],
+  },
+  {
+    word: "Waldhörnle",
+    forbidden: ["Berg", "Aussichtsturm", "Wandern", "Wald", "Schönbuch"],
+  },
+  {
+    word: "Schönbuch",
+    forbidden: ["Wald", "Naturpark", "Wandern", "Bäume", "Natur"],
+  },
+  {
+    word: "Uhlandstraße",
+    forbidden: ["Straße", "Dichter", "Ludwig", "Uhland", "Poet"],
+  },
+  {
+    word: "Bürgeramt",
+    forbidden: ["Amt", "Verwaltung", "Rathaus", "Behörde", "Bürger"],
+  },
+  {
+    word: "Stadtwerke Tübingen",
+    forbidden: ["Strom", "Wasser", "Gas", "Versorgung", "Stadtwerk"],
+  },
+  {
+    word: "Kupferbau",
+    forbidden: ["Gebäude", "Uni", "Kupfer", "Fachbereich", "Hörsaal"],
+  },
+  {
+    word: "Wilhelmsstift",
+    forbidden: ["Theologie", "Stift", "Kirche", "Pfarrer", "Studium"],
+  },
+  {
+    word: "Sandloch",
+    forbidden: ["Stadtteil", "See", "Baden", "Schwimmen", "Wasser"],
+  },
+  {
+    word: "Hirschauer Spitze",
+    forbidden: ["Restaurant", "Essen", "Aussicht", "Berg", "Spitze"],
+  },
 ];
 ---
 
@@ -70,20 +150,20 @@ const tuebingenCards = [
 
 <style>
   .game-card {
-    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    border-radius: 15px;
+    background: white;
+    border-radius: 12px;
     padding: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     min-width: 320px;
-    max-width: 500px;
+    max-width: 480px;
     text-align: center;
-    border: 3px solid #e9ecef;
-    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
   }
 
   .game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   }
 
   .card-content h2 {
@@ -96,16 +176,17 @@ const tuebingenCards = [
 
   .forbidden-words {
     text-align: left;
-    background: rgba(255, 107, 107, 0.1);
-    border-radius: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
     padding: 1.5rem;
-    border-left: 4px solid #ff6b6b;
+    border-left: 3px solid #dc3545;
   }
 
   .forbidden-words h3 {
-    color: #e74c3c;
+    color: #dc3545;
     margin-bottom: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
   }
 
   #forbidden-list {
@@ -115,14 +196,15 @@ const tuebingenCards = [
   }
 
   #forbidden-list li {
-    background: rgba(255, 107, 107, 0.2);
-    padding: 8px 12px;
-    margin: 5px 0;
-    border-radius: 20px;
-    color: #c0392b;
+    background: #fff;
+    padding: 6px 12px;
+    margin: 4px 0;
+    border-radius: 6px;
+    color: #dc3545;
     font-weight: 500;
     display: inline-block;
-    margin-right: 8px;
+    margin-right: 6px;
+    border: 1px solid #f8d7da;
   }
 
   @media (max-width: 480px) {
