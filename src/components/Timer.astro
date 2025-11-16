@@ -75,7 +75,7 @@
 
 <script>
   let timeRemaining = 90; // 1:30 in seconds
-  let timerInterval = null;
+  let timerInterval: number | null = null;
   let isRunning = false;
 
   function updateDisplay() {
@@ -105,7 +105,7 @@
     if (isRunning) return;
 
     isRunning = true;
-    timerInterval = setInterval(() => {
+    timerInterval = window.setInterval(() => {
       timeRemaining--;
       updateDisplay();
 
@@ -120,12 +120,18 @@
   function pauseTimer() {
     if (!isRunning) return;
 
-    clearInterval(timerInterval);
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
     isRunning = false;
   }
 
   function stopTimer() {
-    clearInterval(timerInterval);
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
     isRunning = false;
   }
 
@@ -135,13 +141,18 @@
     updateDisplay();
   }
 
-  // Export functions to global scope
-  window.timer = {
-    start: startTimer,
-    pause: pauseTimer,
-    stop: stopTimer,
-    reset: resetTimer,
-  };
+  // Listen to timer events
+  document.addEventListener("timer:start", () => {
+    startTimer();
+  });
+
+  document.addEventListener("timer:pause", () => {
+    pauseTimer();
+  });
+
+  document.addEventListener("timer:reset", () => {
+    resetTimer();
+  });
 
   document.addEventListener("DOMContentLoaded", () => {
     updateDisplay();

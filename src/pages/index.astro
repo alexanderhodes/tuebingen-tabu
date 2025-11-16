@@ -186,11 +186,11 @@ import Timer from "../components/Timer.astro";
 
   // Game Events
   const gameEvents = {
-    updateScore: function (delta) {
+    updateScore: function (delta: number) {
       gameState.score = Math.max(0, gameState.score + delta);
       const scoreElement = document.getElementById("total-score");
       if (scoreElement) {
-        scoreElement.textContent = gameState.score;
+        scoreElement.textContent = gameState.score.toString();
       }
     },
 
@@ -207,7 +207,7 @@ import Timer from "../components/Timer.astro";
       this.showFeedback("🎮 Neues Spiel gestartet!", "info");
     },
 
-    showFeedback: function (message, type) {
+    showFeedback: function (message: string, type: string) {
       const feedback = document.createElement("div");
       feedback.className = `feedback feedback-${type}`;
       feedback.textContent = message;
@@ -235,7 +235,7 @@ import Timer from "../components/Timer.astro";
       }, 2000);
     },
 
-    getFeedbackColor: function (type) {
+    getFeedbackColor: function (type: string) {
       switch (type) {
         case "success":
           return "#28a745";
