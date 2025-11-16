@@ -1,0 +1,186 @@
+---
+// Tübingen-spezifische Tabu-Karten
+const tuebingenCards = [
+  {
+    word: "WHO",
+    forbidden: [
+      "Weltgesundheitsorganisation",
+      "Gesundheit",
+      "Organisation",
+      "UN",
+      "Pandemie",
+    ],
+  },
+  {
+    word: "Boris Palmer",
+    forbidden: ["Bürgermeister", "Grüne", "Politiker", "Rathaus", "OB"],
+  },
+  {
+    word: "Platanenallee",
+    forbidden: ["Straße", "Bäume", "Allee", "Platane", "Wilhelmstraße"],
+  },
+  {
+    word: "Neckar",
+    forbidden: ["Fluss", "Wasser", "Stocherkahn", "Baden", "Ufer"],
+  },
+  {
+    word: "Stocherkahn",
+    forbidden: ["Boot", "Neckar", "Stange", "fahren", "Wasser"],
+  },
+  {
+    word: "Eberhard Karls Universität",
+    forbidden: ["Uni", "Studium", "Student", "Hochschule", "Bildung"],
+  },
+  {
+    word: "Schloss Hohentübingen",
+    forbidden: ["Burg", "Castell", "Museum", "Archäologie", "Berg"],
+  },
+  {
+    word: "Altstadt",
+    forbidden: [
+      "historisch",
+      "Fachwerk",
+      "Marktplatz",
+      "Zentrum",
+      "mittelalterlich",
+    ],
+  },
+  {
+    word: "Tübinger Stift",
+    forbidden: ["Theologie", "Seminar", "Hegel", "Hölderlin", "Studienhaus"],
+  },
+  {
+    word: "Ammerbuch",
+    forbidden: ["Nachbar", "Gemeinde", "Ammer", "Entringen", "Altingen"],
+  },
+];
+---
+
+<div class="game-card">
+  <div class="card-content">
+    <h2 id="main-word">Bereit?</h2>
+    <div class="forbidden-words">
+      <h3>Tabu-Wörter:</h3>
+      <ul id="forbidden-list">
+        <li>Klicke "Neues Spiel"</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .game-card {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    min-width: 320px;
+    max-width: 500px;
+    text-align: center;
+    border: 3px solid #e9ecef;
+    transition: all 0.3s ease;
+  }
+
+  .game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .forbidden-words {
+    text-align: left;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-left: 4px solid #ff6b6b;
+  }
+
+  .forbidden-words h3 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  #forbidden-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #forbidden-list li {
+    background: rgba(255, 107, 107, 0.2);
+    padding: 8px 12px;
+    margin: 5px 0;
+    border-radius: 20px;
+    color: #c0392b;
+    font-weight: 500;
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  @media (max-width: 480px) {
+    .game-card {
+      min-width: auto;
+      margin: 0 1rem;
+    }
+
+    .card-content h2 {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<script define:vars={{ tuebingenCards }}>
+  let currentCardIndex = 0;
+  let cards = tuebingenCards;
+
+  function loadNewCard() {
+    if (cards.length === 0) return;
+
+    const card = cards[currentCardIndex];
+    const mainWordElement = document.getElementById("main-word");
+    const forbiddenListElement = document.getElementById("forbidden-list");
+
+    if (mainWordElement) {
+      mainWordElement.textContent = card.word;
+    }
+
+    if (forbiddenListElement) {
+      forbiddenListElement.innerHTML = "";
+      card.forbidden.forEach((word) => {
+        const li = document.createElement("li");
+        li.textContent = word;
+        forbiddenListElement.appendChild(li);
+      });
+    }
+  }
+
+  function nextCard() {
+    currentCardIndex = Math.floor(Math.random() * cards.length);
+    loadNewCard();
+  }
+
+  function resetGame() {
+    currentCardIndex = 0;
+    loadNewCard();
+  }
+
+  // Export functions to global scope
+  window.gameCard = {
+    nextCard,
+    resetGame,
+    loadNewCard,
+  };
+
+  // Initialize on load
+  document.addEventListener("DOMContentLoaded", () => {
+    loadNewCard();
+  });
+</script>

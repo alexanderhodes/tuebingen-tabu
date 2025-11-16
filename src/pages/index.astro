@@ -1,0 +1,288 @@
+---
+import Layout from "../layouts/Layout.astro";
+import GameCard from "../components/GameCard.astro";
+import Timer from "../components/Timer.astro";
+import ScoreBoard from "../components/ScoreBoard.astro";
+---
+
+<Layout title="Tübingen Tabu">
+  <main>
+    <header>
+      <h1>🎯 Tübingen Tabu</h1>
+      <p>Das Tabu-Spiel mit Tübinger Begriffen</p>
+    </header>
+
+    <div class="game-container">
+      <div class="game-header">
+        <Timer />
+        <ScoreBoard />
+      </div>
+
+      <div class="game-area">
+        <GameCard />
+      </div>
+
+      <div class="game-controls">
+        <button id="correct-btn" class="btn btn-success">✓ Richtig</button>
+        <button id="skip-btn" class="btn btn-warning">⏭ Überspringen</button>
+        <button id="new-game-btn" class="btn btn-primary">🎮 Neues Spiel</button
+        >
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  header h1 {
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  .game-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .game-area {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-success {
+    background: linear-gradient(45deg, #4caf50, #45a049);
+    color: white;
+  }
+
+  .btn-warning {
+    background: linear-gradient(45deg, #ff9800, #f57c00);
+    color: white;
+  }
+
+  .btn-primary {
+    background: linear-gradient(45deg, #2196f3, #1976d2);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    main {
+      padding: 1rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    .game-header {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .game-controls {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("Tübingen Tabu geladen!");
+
+    // Spiel-Buttons
+    const correctBtn = document.getElementById("correct-btn");
+    const skipBtn = document.getElementById("skip-btn");
+    const newGameBtn = document.getElementById("new-game-btn");
+
+    // Korrekter Punkt
+    correctBtn?.addEventListener("click", () => {
+      // Punkt für aktuelles Team
+      const currentTeam = getCurrentTeam();
+      window.changeScore(currentTeam, 1);
+
+      // Nächste Karte
+      window.gameCard?.nextCard();
+
+      // Feedback
+      showFeedback("✅ Richtig!", "success");
+    });
+
+    // Überspringen
+    skipBtn?.addEventListener("click", () => {
+      window.gameCard?.nextCard();
+      showFeedback("⏭️ Übersprungen", "warning");
+    });
+
+    // Neues Spiel
+    newGameBtn?.addEventListener("click", () => {
+      if (confirm("Möchten Sie wirklich ein neues Spiel starten?")) {
+        startNewGame();
+      }
+    });
+
+    // Hilfsfunktionen
+    let currentTeam = "a";
+
+    function getCurrentTeam() {
+      return currentTeam;
+    }
+
+    function switchTeam() {
+      currentTeam = currentTeam === "a" ? "b" : "a";
+      updateTeamIndicator();
+    }
+
+    function updateTeamIndicator() {
+      const teamA = document.querySelector(".team-a");
+      const teamB = document.querySelector(".team-b");
+
+      if (currentTeam === "a") {
+        teamA?.classList.add("active-team");
+        teamB?.classList.remove("active-team");
+      } else {
+        teamB?.classList.add("active-team");
+        teamA?.classList.remove("active-team");
+      }
+    }
+
+    function startNewGame() {
+      // Punkte zurücksetzen
+      window.scoreboard?.resetScores();
+
+      // Timer zurücksetzen
+      window.timer?.reset();
+
+      // Neue Karte
+      window.gameCard?.resetGame();
+
+      // Team A beginnt
+      currentTeam = "a";
+      updateTeamIndicator();
+
+      showFeedback("🎮 Neues Spiel gestartet!", "info");
+    }
+
+    function showFeedback(message, type) {
+      // Erstelle Feedback-Element
+      const feedback = document.createElement("div");
+      feedback.className = `feedback feedback-${type}`;
+      feedback.textContent = message;
+
+      // Style
+      feedback.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${getFeedbackColor(type)};
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 1000;
+        font-weight: bold;
+        animation: slideDown 0.3s ease;
+      `;
+
+      document.body.appendChild(feedback);
+
+      // Automatisch entfernen
+      setTimeout(() => {
+        feedback.style.animation = "slideUp 0.3s ease";
+        setTimeout(() => feedback.remove(), 300);
+      }, 2000);
+    }
+
+    function getFeedbackColor(type) {
+      switch (type) {
+        case "success":
+          return "linear-gradient(45deg, #4CAF50, #45a049)";
+        case "warning":
+          return "linear-gradient(45deg, #ff9800, #f57c00)";
+        case "info":
+          return "linear-gradient(45deg, #2196F3, #1976D2)";
+        default:
+          return "#6c757d";
+      }
+    }
+
+    // CSS Animationen hinzufügen
+    const animationStyle = document.createElement("style");
+    animationStyle.textContent = `
+      @keyframes slideDown {
+        from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+      }
+      
+      @keyframes slideUp {
+        from { transform: translateX(-50%) translateY(0); opacity: 1; }
+        to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+      }
+      
+      .active-team {
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.3)) !important;
+        border: 2px solid #3498db !important;
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+      }
+    `;
+    document.head.appendChild(animationStyle);
+
+    // Initialisierung
+    updateTeamIndicator();
+  });
+</script>

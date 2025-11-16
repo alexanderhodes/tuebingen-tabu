@@ -1,0 +1,18 @@
+{
+  "name": "tuebingen-tabu",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Ein Tabu-Spiel mit Tübingen-spezifischen Begriffen",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "npm run build"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.5",
+    "astro": "^5.15.8",
+    "typescript": "^5.9.3"
+  }
+}
