@@ -2,6 +2,14 @@
 // Tübingen-spezifische Tabu-Karten
 const tuebingenCards = [
   {
+    word: "Neckarfront",
+    forbidden: ["Altstadt", "Panorama", "Häuser", "Fluss", "Ufer"],
+  },
+  {
+    word: "Stiftskirche",
+    forbidden: ["Kirche", "Gottesdienst", "Turm", "Religion", "Glocken"],
+  },
+  {
     word: "WHO",
     forbidden: [
       "Weltgesundheitsorganisation",
@@ -20,70 +28,50 @@ const tuebingenCards = [
     forbidden: ["Straße", "Bäume", "Allee", "Platane", "Wilhelmstraße"],
   },
   {
-    word: "Neckar",
-    forbidden: ["Fluss", "Wasser", "Stocherkahn", "Baden", "Ufer"],
-  },
-  {
-    word: "Stocherkahn",
-    forbidden: ["Boot", "Neckar", "Stange", "fahren", "Wasser"],
-  },
-  {
-    word: "Eberhard Karls Universität",
-    forbidden: ["Uni", "Studium", "Student", "Hochschule", "Bildung"],
+    word: "Hölderlinturm",
+    forbidden: ["Turm", "Dichter", "Neckar", "Poet", "Wahnsinn"],
   },
   {
     word: "Schloss Hohentübingen",
     forbidden: ["Burg", "Castell", "Museum", "Archäologie", "Berg"],
   },
   {
-    word: "Altstadt",
-    forbidden: [
-      "historisch",
-      "Fachwerk",
-      "Marktplatz",
-      "Zentrum",
-      "mittelalterlich",
-    ],
+    word: "Kloster Bebenhausen",
+    forbidden: ["Kloster", "Mönche", "Ruine", "Geschichte", "Wald"],
   },
   {
-    word: "Tübinger Stift",
-    forbidden: ["Theologie", "Seminar", "Hegel", "Hölderlin", "Studienhaus"],
+    word: "Botanischer Garten",
+    forbidden: ["Pflanzen", "Garten", "Blumen", "Uni", "Gewächshaus"],
   },
   {
-    word: "Ammerbuch",
-    forbidden: ["Nachbar", "Gemeinde", "Ammer", "Entringen", "Altingen"],
-  },
-  {
-    word: "Bebenhausen",
-    forbidden: ["Kloster", "Wald", "Schönbuch", "Hirsch", "Jagdschloss"],
-  },
-  {
-    word: "Wilhelmsplatz",
-    forbidden: ["Platz", "Statue", "Friedrich", "König", "Zentrum"],
-  },
-  {
-    word: "Hölderlinturm",
-    forbidden: ["Turm", "Dichter", "Neckar", "Poet", "Wahnsinn"],
+    word: "Wurmlinger Kapelle",
+    forbidden: ["Kapelle", "Berg", "Aussicht", "Uhland", "Gedicht"],
   },
   {
     word: "Studentenkarzer",
     forbidden: ["Gefängnis", "Student", "Arrest", "Zelle", "Strafe"],
   },
   {
-    word: "Marktplatz",
-    forbidden: ["Platz", "Rathaus", "Markt", "Zentrum", "Brunnen"],
+    word: "Elysium",
+    forbidden: [
+      "Mittelpunkt",
+      "Baden-Württemberg",
+      "geografisch",
+      "Zentrum",
+      "Punkt",
+    ],
   },
   {
-    word: "Neckarinsel",
-    forbidden: ["Insel", "Neckar", "Wasser", "Park", "Spaziergang"],
-  },
-  {
-    word: "Österberg",
-    forbidden: ["Berg", "Hügel", "Aussicht", "Spaziergang", "Wandern"],
+    word: "Stocherkahn",
+    forbidden: ["Boot", "Neckar", "Stange", "fahren", "Wasser"],
   },
   {
     word: "Französisches Viertel",
     forbidden: ["Viertel", "Frankreich", "Soldaten", "Kaserne", "Wohnen"],
+  },
+  {
+    word: "Waldhörnle",
+    forbidden: ["Berg", "Aussichtsturm", "Wandern", "Wald", "Schönbuch"],
   },
   {
     word: "Lustnau",
@@ -94,44 +82,62 @@ const tuebingenCards = [
     forbidden: ["Stadtteil", "Dorf", "Eingemeindung", "Vorort", "Gemeinde"],
   },
   {
-    word: "Pfrondorf",
-    forbidden: ["Stadtteil", "Dorf", "Berg", "Eingemeindung", "Höhe"],
+    word: "Uhlandstraße",
+    forbidden: ["Straße", "Dichter", "Ludwig", "Uhland", "Poet"],
   },
   {
-    word: "Waldhörnle",
-    forbidden: ["Berg", "Aussichtsturm", "Wandern", "Wald", "Schönbuch"],
+    word: "Wilhelmsplatz",
+    forbidden: ["Platz", "Statue", "Friedrich", "König", "Zentrum"],
+  },
+  {
+    word: "Neckarinsel",
+    forbidden: ["Insel", "Neckar", "Wasser", "Park", "Spaziergang"],
+  },
+  {
+    word: "Österberg",
+    forbidden: ["Berg", "Hügel", "Aussicht", "Spaziergang", "Wandern"],
   },
   {
     word: "Schönbuch",
     forbidden: ["Wald", "Naturpark", "Wandern", "Bäume", "Natur"],
   },
   {
-    word: "Uhlandstraße",
-    forbidden: ["Straße", "Dichter", "Ludwig", "Uhland", "Poet"],
+    word: "Eberhard Karls Universität",
+    forbidden: ["Uni", "Studium", "Student", "Hochschule", "Bildung"],
   },
   {
-    word: "Bürgeramt",
-    forbidden: ["Amt", "Verwaltung", "Rathaus", "Behörde", "Bürger"],
-  },
-  {
-    word: "Stadtwerke Tübingen",
-    forbidden: ["Strom", "Wasser", "Gas", "Versorgung", "Stadtwerk"],
-  },
-  {
-    word: "Kupferbau",
-    forbidden: ["Gebäude", "Uni", "Kupfer", "Fachbereich", "Hörsaal"],
+    word: "Tübinger Stift",
+    forbidden: ["Theologie", "Seminar", "Hegel", "Hölderlin", "Studienhaus"],
   },
   {
     word: "Wilhelmsstift",
     forbidden: ["Theologie", "Stift", "Kirche", "Pfarrer", "Studium"],
   },
   {
-    word: "Sandloch",
+    word: "Kupferbau",
+    forbidden: ["Gebäude", "Uni", "Kupfer", "Fachbereich", "Hörsaal"],
+  },
+  {
+    word: "Marktplatz",
+    forbidden: ["Platz", "Rathaus", "Markt", "Zentrum", "Brunnen"],
+  },
+  {
+    word: "Altstadt",
+    forbidden: [
+      "historisch",
+      "Fachwerk",
+      "mittelalterlich",
+      "Zentrum",
+      "Gassen",
+    ],
+  },
+  {
+    word: "Sand",
     forbidden: ["Stadtteil", "See", "Baden", "Schwimmen", "Wasser"],
   },
   {
-    word: "Hirschauer Spitze",
-    forbidden: ["Restaurant", "Essen", "Aussicht", "Berg", "Spitze"],
+    word: "Pfrondorf",
+    forbidden: ["Stadtteil", "Dorf", "Berg", "Eingemeindung", "Höhe"],
   },
 ];
 ---
@@ -254,12 +260,14 @@ const tuebingenCards = [
     loadNewCard();
   }
 
-  // Export functions to global scope
-  window.gameCard = {
-    nextCard,
-    resetGame,
-    loadNewCard,
-  };
+  // Listen to game events
+  document.addEventListener("game:nextCard", () => {
+    nextCard();
+  });
+
+  document.addEventListener("game:reset", () => {
+    resetGame();
+  });
 
   // Initialize on load
   document.addEventListener("DOMContentLoaded", () => {

@@ -2,7 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import GameCard from "../components/GameCard.astro";
 import Timer from "../components/Timer.astro";
-import ScoreBoard from "../components/ScoreBoard.astro";
 ---
 
 <Layout title="Tübingen Tabu">
@@ -15,7 +14,10 @@ import ScoreBoard from "../components/ScoreBoard.astro";
     <div class="game-container">
       <div class="game-header">
         <Timer />
-        <ScoreBoard />
+        <div class="score-display">
+          <h3>Punkte</h3>
+          <div class="score" id="total-score">0</div>
+        </div>
       </div>
 
       <div class="game-area">
@@ -73,6 +75,32 @@ import ScoreBoard from "../components/ScoreBoard.astro";
     margin-bottom: 2rem;
     flex-wrap: wrap;
     gap: 1rem;
+  }
+
+  .score-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+  }
+
+  .score-display h3 {
+    margin: 0;
+    color: #495057;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #28a745;
+    min-width: 40px;
+    text-align: center;
   }
 
   .game-area {
@@ -144,8 +172,88 @@ import ScoreBoard from "../components/ScoreBoard.astro";
 </style>
 
 <script>
+  // Game State
+  const gameState = {
+    score: 0,
+    currentCard: null,
+    cards: [],
+    timer: {
+      timeRemaining: 90,
+      isRunning: false,
+      interval: null,
+    },
+  };
+
+  // Game Events
+  const gameEvents = {
+    updateScore: function (delta) {
+      gameState.score = Math.max(0, gameState.score + delta);
+      const scoreElement = document.getElementById("total-score");
+      if (scoreElement) {
+        scoreElement.textContent = gameState.score;
+      }
+    },
+
+    nextCard: function () {
+      // Dispatch event to GameCard component
+      document.dispatchEvent(new CustomEvent("game:nextCard"));
+    },
+
+    resetGame: function () {
+      gameState.score = 0;
+      this.updateScore(0);
+      // Dispatch events to components
+      document.dispatchEvent(new CustomEvent("game:reset"));
+      this.showFeedback("🎮 Neues Spiel gestartet!", "info");
+    },
+
+    showFeedback: function (message, type) {
+      const feedback = document.createElement("div");
+      feedback.className = `feedback feedback-${type}`;
+      feedback.textContent = message;
+
+      feedback.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${this.getFeedbackColor(type)};
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        font-weight: 500;
+        animation: slideDown 0.3s ease;
+      `;
+
+      document.body.appendChild(feedback);
+
+      setTimeout(() => {
+        feedback.style.animation = "slideUp 0.3s ease";
+        setTimeout(() => feedback.remove(), 300);
+      }, 2000);
+    },
+
+    getFeedbackColor: function (type) {
+      switch (type) {
+        case "success":
+          return "#28a745";
+        case "warning":
+          return "#ffc107";
+        case "info":
+          return "#007bff";
+        default:
+          return "#6c757d";
+      }
+    },
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     console.log("Tübingen Tabu geladen!");
+
+    // Initialize score display
+    gameEvents.updateScore(0);
 
     // Spiel-Buttons
     const correctBtn = document.getElementById("correct-btn");
@@ -154,115 +262,23 @@ import ScoreBoard from "../components/ScoreBoard.astro";
 
     // Korrekter Punkt
     correctBtn?.addEventListener("click", () => {
-      // Punkt für aktuelles Team
-      const currentTeam = getCurrentTeam();
-      window.changeScore(currentTeam, 1);
-
-      // Nächste Karte
-      window.gameCard?.nextCard();
-
-      // Feedback
-      showFeedback("✅ Richtig!", "success");
+      gameEvents.updateScore(1);
+      gameEvents.nextCard();
+      gameEvents.showFeedback("✅ Richtig!", "success");
     });
 
     // Überspringen
     skipBtn?.addEventListener("click", () => {
-      window.gameCard?.nextCard();
-      showFeedback("⏭️ Übersprungen", "warning");
+      gameEvents.nextCard();
+      gameEvents.showFeedback("⏭️ Übersprungen", "warning");
     });
 
     // Neues Spiel
     newGameBtn?.addEventListener("click", () => {
       if (confirm("Möchten Sie wirklich ein neues Spiel starten?")) {
-        startNewGame();
+        gameEvents.resetGame();
       }
     });
-
-    // Hilfsfunktionen
-    let currentTeam = "a";
-
-    function getCurrentTeam() {
-      return currentTeam;
-    }
-
-    function switchTeam() {
-      currentTeam = currentTeam === "a" ? "b" : "a";
-      updateTeamIndicator();
-    }
-
-    function updateTeamIndicator() {
-      const teamA = document.querySelector(".team-a");
-      const teamB = document.querySelector(".team-b");
-
-      if (currentTeam === "a") {
-        teamA?.classList.add("active-team");
-        teamB?.classList.remove("active-team");
-      } else {
-        teamB?.classList.add("active-team");
-        teamA?.classList.remove("active-team");
-      }
-    }
-
-    function startNewGame() {
-      // Punkte zurücksetzen
-      window.scoreboard?.resetScores();
-
-      // Timer zurücksetzen
-      window.timer?.reset();
-
-      // Neue Karte
-      window.gameCard?.resetGame();
-
-      // Team A beginnt
-      currentTeam = "a";
-      updateTeamIndicator();
-
-      showFeedback("🎮 Neues Spiel gestartet!", "info");
-    }
-
-    function showFeedback(message, type) {
-      // Erstelle Feedback-Element
-      const feedback = document.createElement("div");
-      feedback.className = `feedback feedback-${type}`;
-      feedback.textContent = message;
-
-      // Style
-      feedback.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: ${getFeedbackColor(type)};
-        color: white;
-        padding: 12px 24px;
-        border-radius: 25px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        z-index: 1000;
-        font-weight: bold;
-        animation: slideDown 0.3s ease;
-      `;
-
-      document.body.appendChild(feedback);
-
-      // Automatisch entfernen
-      setTimeout(() => {
-        feedback.style.animation = "slideUp 0.3s ease";
-        setTimeout(() => feedback.remove(), 300);
-      }, 2000);
-    }
-
-    function getFeedbackColor(type) {
-      switch (type) {
-        case "success":
-          return "linear-gradient(45deg, #4CAF50, #45a049)";
-        case "warning":
-          return "linear-gradient(45deg, #ff9800, #f57c00)";
-        case "info":
-          return "linear-gradient(45deg, #2196F3, #1976D2)";
-        default:
-          return "#6c757d";
-      }
-    }
 
     // CSS Animationen hinzufügen
     const animationStyle = document.createElement("style");
@@ -276,17 +292,7 @@ import ScoreBoard from "../components/ScoreBoard.astro";
         from { transform: translateX(-50%) translateY(0); opacity: 1; }
         to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
       }
-      
-      .active-team {
-        background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.3)) !important;
-        border: 2px solid #3498db !important;
-        transform: scale(1.05);
-        transition: all 0.3s ease;
-      }
     `;
     document.head.appendChild(animationStyle);
-
-    // Initialisierung
-    updateTeamIndicator();
   });
 </script>
